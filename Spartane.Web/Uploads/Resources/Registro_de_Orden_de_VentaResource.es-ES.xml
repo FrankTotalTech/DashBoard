@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" standalone="yes"?>
+<resources>
+  <resource culture="es-es" name="Registro_de_Orden_de_Venta" value="Registro de Orden de Venta"></resource>
+  <resource culture="es-es" name="Folio" value="Folio"></resource>
+  <resource culture="es-es" name="Fecha_de_Registro" value="Fecha de Registro"></resource>
+  <resource culture="es-es" name="Hora_de_Registro" value="Hora de Registro"></resource>
+  <resource culture="es-es" name="Cliente" value="Cliente"></resource>
+  <resource culture="es-es" name="Valores" value="Valores"></resource>
+  <resource culture="es-es" name="Estatus" value="Estatus"></resource>
+  <resource culture="es-es" name="Observaciones" value="Observaciones"></resource>
+
+<resource culture="es-es" name="TabDatos_Generales" value="Datos Generales"></resource>
+
+</resources>

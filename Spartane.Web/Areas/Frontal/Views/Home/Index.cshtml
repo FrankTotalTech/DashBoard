@@ -1,0 +1,96 @@
+﻿@using System.Collections.Generic
+@using System.Web.UI.WebControls
+
+@using Spartane.Core.Domain.Permission
+@using Spartane.Web.Areas.WebApiConsumer
+@using Spartane.Web.Helpers
+@{
+    ViewBag.Title = Resources.Resources.Index;
+
+}
+<div class="row  border-bottom white-bg dashboard-header" style="background: #ececee;">
+    @{
+        if (Convert.ToInt32(Spartane.Web.SessionHelper.Role) == (int)Spartane.Core.Enums.SpartanRoleEnum.Admin)
+        {
+            <h2>&nbsp;</h2>
+            <button onclick="HomeGetBusinessRule()" type="button" class="btn btn-info btn-lg displayBusinessProperyButton" data-toggle="modal" data-target="#HomeBusinessRule-form">
+                <a class="top" title="" data-placement="right" data-toggle="tooltip" href="#" data-original-title="@Resources.Resources.BusinessRuleToBegin">
+                    <i class="fa fa-cogs fa-spin"></i>
+                </a>
+            </button>
+            <div aria-hidden="true" class="modal fade in HomePropertyBusinessModal" id="HomePropertyBusinessModal-form" style="display: none; background-color:rgba(0, 0, 0, 0.7);">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">
+                                Property & Business Rules
+                                <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <a class="btn btn-primary full-width" data-dismiss="modal" data-toggle="modal" data-target="#PropertyModal-form" onclick="GetPropertyBag()">Properties</a>
+                                </div>
+                                <div class="clearfix col-sm-12">&nbsp;</div>
+                                <div class="col-sm-12">
+                                    <a class="btn btn-primary full-width" data-dismiss="modal" data-toggle="modal" data-target="#HomeBusinessRule-form" onclick="HomeGetBusinessRule()">Business Rule</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div aria-hidden="true" data-backdrop="static" class="modal fade in PropertyModal" id="PropertyModal-form" style="display: none; background-color:rgba(0, 0, 0, 0.7);">
+            </div>
+            <div aria-hidden="true" data-backdrop="static" class="modal fade in HomeBusinessRuleModal" id="HomeBusinessRule-form" style="display: none; background-color:rgba(0, 0, 0, 0.7);">
+            </div>
+            <div aria-hidden="true" data-backdrop="static" class="modal fade in HomeAddBusinessRuleModal" id="HomeAddBusinessRule-form" style="display: none; background-color:rgba(0, 0, 0, 0.7);">
+            </div>
+        }
+    }
+
+</div>
+
+<input type="hidden" value="List" name="Operation" id="Operation" />
+
+<script type="text/javascript" src="~/Uploads/Scripts/Rules/HomeIndexRules.js?v=@DateTime.Now.ToString("ddMMyyyyhhmmss")"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('a').tooltip();
+    });
+    function GetPropertyBag() {
+        $.get('@Url.Action("HomePropertyBag", "Home")', function (data) {
+            $(".PropertyModal").html(data);
+        });
+    }
+    function OpenRules() {
+        $.get('@Url.Action("Index", "Business_Rule_Creation")', {}, function (data) {
+            $(".HomeBusinessRuleModal").html(data);
+            $(".HomeBusinessRuleModal").modal('show');
+        });
+    }
+    function HomeGetBusinessRule() {
+        $('#FieldId').val();
+        $('#FieldName').val('');
+        $('#ObjectId').val('2');
+        $('#Attribute').val('3');
+        $('#Screen').val('Home');
+        OpenRules();
+    }
+</script>
+
+@section Styles {
+    
+    @Styles.Render("~/plugins/dateRangeStyles")
+    @Styles.Render("~/plugins/dataPickerStyles")
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/plugins/dataPicker")
+}
+

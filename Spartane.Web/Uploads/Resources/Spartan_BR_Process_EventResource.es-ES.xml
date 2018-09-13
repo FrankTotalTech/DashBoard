@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" standalone="yes"?>
+<resources>
+  <resource culture="es-es" name="Spartan_BR_Process_Event" value="Business Rule Process Event"></resource>
+  <resource culture="es-es" name="ProcessEventId" value="Id"></resource>
+  <resource culture="es-es" name="Description" value="Description"></resource>
+
+  <resource name="Description.1" control="Description" value="Abrir Pantalla" culture="es-es" />
+  <resource name="Description.2" control="Description" value="Antes de Guardar" culture="es-es" />
+  <resource name="Description.3" control="Description" value="Despues de Guardar" culture="es-es" />
+  <resource name="Description.4" control="Description" value="Antes de Cerrar" culture="es-es" />
+  <resource name="Description.5" control="Description" value="Despues de Cerrar" culture="es-es" />
+  <resource name="Description.6" control="Description" value="Despues de Guardar MR" culture="es-es" />
+  <resource name="Description.7" control="Description" value="Antes de Guardar MR" culture="es-es" />
+  <resource name="Description.8" control="Description" value="Al Eliminar Row en MR" culture="es-es" />
+  <resource name="Description.12" control="Description" value="Al crear Nueva Row en MR" culture="es-es" />
+  <resource name="Description.13" control="Description" value="Antes de Crear la Lista" culture="es-es" />
+  <resource name="Description.14" control="Description" value="Despues de Crear la Lista" culture="es-es" />
+  <resource name="Description.15" control="Description" value="Al Editar Row en MR" culture="es-es" />
+
+</resources>

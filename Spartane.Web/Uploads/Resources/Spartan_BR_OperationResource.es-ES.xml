@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" standalone="yes"?>
+<resources>
+  <resource culture="es-es" name="Spartan_BR_Operation" value="Business Rule Operation"></resource>
+  <resource culture="es-es" name="OperationId" value="OperationId"></resource>
+  <resource culture="es-es" name="Description" value="Description"></resource>
+  <resource name="Description.1" control="Description" value="Nuevo" culture="es-es" />
+  <resource name="Description.2" control="Description" value="Modificación" culture="es-es" />
+  <resource name="Description.3" control="Description" value="Consulta" culture="es-es" />
+  <resource name="Description.4" control="Description" value="Lista" culture="es-es" />
+</resources>
