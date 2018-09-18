@@ -88,7 +88,7 @@ namespace Spartane.Web.Areas.Frontal.Controllers
             ISpartane_FileApiConsumer Spartane_FileApiConsumer, ISpartan_Business_RuleApiConsumer Spartan_Business_RuleApiConsumer, ISpartan_BR_Process_Event_DetailApiConsumer Spartan_BR_Process_Event_DetailApiConsumer, 
             ISpartan_FormatApiConsumer Spartan_FormatApiConsumer, ISpartan_Format_PermissionsApiConsumer Spartan_Format_PermissionsApiConsumer, IGeneratePDFApiConsumer GeneratePDFApiConsumer, 
             ISpartan_Format_RelatedApiConsumer Spartan_Format_RelatedApiConsumer , ISpartan_UserApiConsumer Spartan_UserApiConsumer , ITemplate_Dashboard_EditorApiConsumer Template_Dashboard_EditorApiConsumer , 
-            IDashboard_StatusApiConsumer Dashboard_StatusApiConsumer , IDashboard_Config_DetailApiConsumer Dashboard_Config_DetailApiConsumer, ITemplate_Dashboard_DetailService ITemplate_Dashboard_DetailApiConsumer)
+            IDashboard_StatusApiConsumer Dashboard_StatusApiConsumer , IDashboard_Config_DetailApiConsumer Dashboard_Config_DetailApiConsumer, ITemplate_Dashboard_DetailApiConsumer ITemplate_Dashboard_DetailApiConsumer)
         {
             this.service = service;
             this._IAuthenticationApiConsumer = authenticationApiConsumer;
@@ -884,15 +884,16 @@ namespace Spartane.Web.Areas.Frontal.Controllers
             return resultData;
         }
 
-        public Template_Dashboard_Editor GetLayout(string templateId)
+        public JsonResult GetLayout(string templateId)
         {
             string where = "Template = " + templateId;
+            string order = "Template";
             if (!_tokenManager.GenerateToken())
                 return null;
-            
-            _ITemplate_Dashboard_EditorApiConsumer.SetAuthHeader((_tokenManager.Token));
-            var result = _ITemplate_Dashboard_EditorApiConsumer.ListaSelAll(false, where).Resource;
-            return result;
+
+            _ITemplate_Dashboard_DetailApiConsumer.SetAuthHeader((_tokenManager.Token));
+            var result = _ITemplate_Dashboard_DetailApiConsumer.ListaSelAll(false, where, order).Resource.ToList();
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
 

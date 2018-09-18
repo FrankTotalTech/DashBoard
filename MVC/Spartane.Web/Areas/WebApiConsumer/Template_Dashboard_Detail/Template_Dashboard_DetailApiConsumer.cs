@@ -143,12 +143,38 @@ namespace Spartane.Web.Areas.WebApiConsumer.Template_Dashboard_Detail
 
         public ApiResponse<IList<Core.Domain.Template_Dashboard_Detail.Template_Dashboard_Detail>> SelAll(bool ConRelaciones, string Where, string Order)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var varRecords = RestApiHelper.InvokeApi<IList<Spartane.Core.Domain.Template_Dashboard_Detail.Template_Dashboard_Detail>>(baseApi, ApiControllerUrl + "/GetAll?" +
+                    (string.IsNullOrEmpty(Where) ? "" : "&Where=" + Where) +
+                     (string.IsNullOrEmpty(Order) ? "" : "&Order=" + Order),
+                      Method.GET, ApiHeader);
+                
+
+                return new ApiResponse<IList<Core.Domain.Template_Dashboard_Detail.Template_Dashboard_Detail>>(true, varRecords);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<IList<Core.Domain.Template_Dashboard_Detail.Template_Dashboard_Detail>>(false, null);
+            }
         }
 
         public ApiResponse<IList<Core.Domain.Template_Dashboard_Detail.Template_Dashboard_Detail>> ListaSelAll(bool ConRelaciones, string Where, string Order)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var varRecords = RestApiHelper.InvokeApi<IList<Spartane.Core.Domain.Template_Dashboard_Detail.Template_Dashboard_Detail>>(baseApi, ApiControllerUrl + "/GetAll?" +
+                    (string.IsNullOrEmpty(Where) ? "" : "&Where=" + Where) +
+                     (string.IsNullOrEmpty(Order) ? "" : "&Order=" + Order),
+                      Method.GET, ApiHeader);
+
+
+                return new ApiResponse<IList<Core.Domain.Template_Dashboard_Detail.Template_Dashboard_Detail>>(true, varRecords);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<IList<Core.Domain.Template_Dashboard_Detail.Template_Dashboard_Detail>>(false, null);
+            }
         }
 
         public ApiResponse<Template_Dashboard_DetailPagingModel> ListaSelAll(int startRowIndex, int maximumRows, string Where, string Order)

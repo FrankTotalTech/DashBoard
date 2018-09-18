@@ -492,25 +492,25 @@
 
 
     <script type="text/javascript">
-        
+
 
 
 	function GetTraduction(text) {
          switch (text.toLowerCase()) {
             case 'edit':
-                return "@Resources.Resources.Edit";          
+                return "@Resources.Resources.Edit";
             case 'delete':
-                return "@Resources.Resources.Delete";               
+                return "@Resources.Resources.Delete";
             case 'required':
-                return "@Resources.Resources.Required";              
+                return "@Resources.Resources.Required";
             case 'notrequired':
-                return "@Resources.Resources.NotRequired";           
+                return "@Resources.Resources.NotRequired";
             case 'enabled':
-                return "@Resources.Resources.Enabled";         
+                return "@Resources.Resources.Enabled";
             case 'disabled':
-                return "@Resources.Resources.Disabled";           
+                return "@Resources.Resources.Disabled";
             case 'visible':
-                return "@Resources.Resources.Visible";            
+                return "@Resources.Resources.Visible";
             case 'botvisible':
                 return "@Resources.Resources.InVisible";
             case 'messagednoinvisible':
@@ -520,12 +520,12 @@
             case 'defaultvalue':
                 return "@Resources.Resources.DefaultValue";
             case 'helptext':
-                return "@Resources.Resources.HelpText";                     
+                return "@Resources.Resources.HelpText";
             default:
                 return "";
         }
     }
-	
+
 	    var isPartial = ('@ViewBag.IsPartial' == 'True');
         var isMR = ('@ViewBag.isMR' == 'True');
         var nameMR = '@ViewBag.nameMR';
@@ -537,11 +537,11 @@
 
         $(document).ready(function () {
             $('#ObjectId').val('40176');
-		                            
+
               //showDashboard_Config_DetailGrid(null);
 
              @if(ViewBag.IsNew)
-            { 
+            {
                 <text>$('input:checkbox').prop('checked', false);</text>
             }
 			else
@@ -572,16 +572,25 @@
 			$('.loading').css('display', 'none');
 
             $("#Dashboard_Template").imagepicker({
-
                 show_label: false,
                 clicked: function () {
-                    console.log($(this).val());
+                    $("#previewDasboard").html("");
+
+                    GetLayoutByTemplate($(this).val());
+
+                },
+                selected: function () {
                 }
             });
+
+            if ($("#Dashboard_Template").val() != 0) {
+                GetLayoutByTemplate($("#Dashboard_Template").val());
+            }
 
             //layoutPreview();
 
         });
+        var totalRows = 1;
 
         function GetLayoutByTemplate(templateId) {
             $.ajax({
@@ -590,7 +599,11 @@
             dataType: "json",
             async: false,
             success: function (result) {
-                layoutPreview(result);
+                
+                $(result).each(function () {
+                    drawDashboard($(this).attr("Row_Number"),$(this).attr("Columns"));                    
+                });
+                 
             },
             error: function (result) {
                 showNotification("@Resources.Resources.ErrorContactingServer", "error");
@@ -598,8 +611,55 @@
         });
         }
 
-        function layoutPreview(array) {
-            //previewDasboard
+        function drawDashboard(rowVal, colVal) {
+            var row = rowVal;
+            var column = colVal;
+            var html = "";
+            var imgPreview = "@Url.Content("~/Images/img_397337.png")";
+            //debugger;
+            html = "<div class='row'>";
+            for (var i = 0; i < row; i++) {
+                if (row == 1) {
+                    html += "<div class='col-xs-12'><div class='row'>";
+                } else {
+                    //more rows...
+                }
+                for (var j = 0; j < column; j++) {
+                    html += "<div class='" + getColumnCss(column) + "' id='" + totalRows + column + "'><img src='" + imgPreview + "' id='img" + totalRows + j + "' style='width:35px;' onclick='previewDetal(this.id);' /></div>";
+                }
+                html += "</div></div>";
+                //</div>"
+            }
+            html += "</div>";
+            $("#previewDasboard").append(html);
+            totalRows++;
+        }
+
+        function getColumnCss(cols) {
+            switch (cols) {
+                case 1:
+                    return "col-xs-12 .lchart";
+                    break;
+                case 2:
+                    return "col-xs-6 .lchart";
+                    break;
+                case 3:
+                    return "col-xs-4 .lchart";
+                    break;
+                case 4:
+                    return "col-xs-3 .lchart";
+                    break;
+                case 5:
+                    return "col-xs-2 .lchart";
+                    break;
+                case 6:
+                    return "col-xs-2 .lchart";
+                    break;
+            }
+        }
+
+        function previewDetal(id) {
+            alert(id);
         }
 
         var Dashboard_Config_DetailinsertRowCurrentIndex = -1;
@@ -669,11 +729,11 @@
         var removedDashboard_Config_DetailData = [];
         function Dashboard_Config_DetailDeleteRow(rowIndex, row) {
             var rowIndexTable = Dashboard_Config_DetailTable.fnGetPosition($(row).parent().parent()[0]);
-            var permission = {            
+            var permission = {
                  Delete: '@permissionDashboard_Config_Detail.Delete' == 'True'
             };
             if (!permission.Delete || isConsultMode)
-                return;            
+                return;
             if (confirm(htmlDecode("@Resources.Resources.DeleteConfirm"))) {
               if (EjecutarValidacionesAlEliminarMRDashboard_Config_Detail('Dashboard_Config_Detail_', '_' + rowIndex)) {
                 var prevData = Dashboard_Config_DetailTable.fnGetData(rowIndexTable );
@@ -686,7 +746,7 @@
         }
 
         function Dashboard_Config_DetailrowCreationGrid(row, data, index) {
-            var permission =  {            
+            var permission =  {
                  Edit: '@permissionDashboard_Config_Detail.Edit' == 'True',
                  Delete: '@permissionDashboard_Config_Detail.Delete' == 'True'
             };
@@ -719,16 +779,16 @@
 					var idHeader = $(controls[i]).data('field') + 'Header';
 					if($(controls[i]).length > 1){
 						idHeader = $($(controls[i])[1]).data('field') + 'Header';
-					}					
+					}
 
 					var classe = ($('#Dashboard_Config_DetailGrid .' + idHeader).hasClass('dt-right') ? "dt-right" : "") + $('#Dashboard_Config_DetailGrid .' + idHeader ).css('display') == 'none' ? " hide" : "";
-				   
+
 					if ($(controls[i]).next().length > 0) {
 					    var div = $(controls[i]).next();
 					    $('<td class="' + classe + '">').append($(controls[i])).append(div).appendTo(row);
 					}else
 					    $(controls[i]).appendTo($('<td class="' + classe + '">').appendTo(row));
-					
+
                 }
                 $('#Dashboard_Config_DetailGrid .inputMoney').inputmask("currency", { prefix: "", rightAlign: false });
                 return;
@@ -751,19 +811,19 @@
 				actionCol.appendTo(row);
             if ($('.Report_Id' + 'Header').css('display') != 'none')
                 $('<td class="dt-right"  id="'+nameOfTable+'Report_Id'+rowIndex+'">').text(data.Report_Id).appendTo(row);
-            else 
+            else
                  $('<td class="dt-right" style="display:none;"  id="'+nameOfTable+'Report_Id'+rowIndex+'">').text(data.Report_Id).appendTo(row);
             if ($('.Report_Name' + 'Header').css('display') != 'none')
                 $('<td id="'+nameOfTable+'Report_Name'+rowIndex+'">').text(data.Report_Name).appendTo(row);
-            else 
+            else
                 $('<td style="display:none;" id="'+nameOfTable+'Report_Name'+rowIndex+'">').text(data.Report_Name).appendTo(row);
             if ($('.ConfigRow' + 'Header').css('display') != 'none')
                 $('<td class="dt-right"  id="'+nameOfTable+'ConfigRow'+rowIndex+'">').text(data.ConfigRow).appendTo(row);
-            else 
+            else
                  $('<td class="dt-right" style="display:none;"  id="'+nameOfTable+'ConfigRow'+rowIndex+'">').text(data.ConfigRow).appendTo(row);
             if ($('.ConfigColumn' + 'Header').css('display') != 'none')
                 $('<td class="dt-right"  id="'+nameOfTable+'ConfigColumn'+rowIndex+'">').text(data.ConfigColumn).appendTo(row);
-            else 
+            else
                  $('<td class="dt-right" style="display:none;"  id="'+nameOfTable+'ConfigColumn'+rowIndex+'">').text(data.ConfigColumn).appendTo(row);
 
         }
@@ -824,7 +884,7 @@
 
             if (Dashboard_Config_DetailData.length > 0 || $("#ReferenceDashboard_Id").val() != Dashboard_IdId) {
                 if ($("#ReferenceDashboard_Id").val() != "0" && Dashboard_IdId ==null)
-                    Dashboard_IdId = $("#ReferenceDashboard_Id").val();                
+                    Dashboard_IdId = $("#ReferenceDashboard_Id").val();
                 if ($("#ReferenceDashboard_Id").val() == '')
                     $("#ReferenceDashboard_Id").val('0');
                 $.ajax({
